@@ -1,0 +1,31 @@
+#start from image passed by argument during build process. Usually it is an ubuntu image plus mesa library.
+ARG START_IMG="ubuntu:focal"
+ARG release = "master"
+
+LABEL maintainer="valentina.gaggero@iit.it"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies given in documentation in superbuild
+# https://github.com/robotology/robotology-superbuild#linux
+RUN mkdir -p /etc/bash_completion.d/ && \
+    apt-get update &&\
+    apt-get install -y -qq --no-install-recommends\
+        # MISC
+        bash-completion \
+        git \
+        wget \
+        apt-transport-https \
+        ca-certificates \
+        vim &&\
+    update-ca-certificates
+
+
+RUN mkdir ${PROJECTS_DIR} && cd ${PROJECTS_DIR} &&\
+    git clone https://github.com/robotology/robotology-superbuild.git &&\
+    cd robotology-superbuild &&\
+    git checkout ${release} &&\
+    ./scripts/install_apt_dependencies.sh &&\
+    mkdir build && cd build 
+
+CMD ["bash"]
