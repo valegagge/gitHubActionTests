@@ -1,0 +1,21 @@
+name: Build and publish test image
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'devel or master'
+        required: true
+        default: 'master'
+        
+jobs:
+  build-job:
+  runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: `master`
+    - name: print input
+      echo "My input is:${{ inputs.release }}"
+    - name: docker-build
+      run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources"       
