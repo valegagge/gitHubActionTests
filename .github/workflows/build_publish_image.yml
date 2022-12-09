@@ -1,5 +1,5 @@
 name: Build and publish test image
-
+run-name: ${{ github.actor }} is building and publishing a test image 🚀
 on:
   workflow_dispatch:
     inputs:
@@ -10,12 +10,17 @@ on:
         
 jobs:
   build-job:
-  runs-on: ubuntu-latest
-  steps:
+   runs-on: ubuntu-latest
+   steps:
     - uses: actions/checkout@v3
       with:
         ref: master
     - name: print input
-      echo "My input is:${{ inputs.release }}"
+      #run: echo "My input is: ${{ inputs.release }}"
+      run: echo "🎉 here I'll print the input."
     - name: docker-build
-      run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources"       
+      #run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources"       
+      run: docker build -f Dockerfile.yml --no-cache  -t valegagge/superbuild:latest .
+    - name: print something
+      #run: echo "My input is: ${{ inputs.release }}"
+      run: echo "🎉 print something."
