@@ -24,3 +24,5 @@ jobs:
       run: docker build -f Dockerfile.yml  -t ${{ secrets.DOCKERHUB_USERNAME }}/superbuild:latest .
     - name: docker push
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/superbuild:latest
+    - name: write on output
+      run: echo "this is a test of GITHUB_OUTPUT" >> $GITHUB_OUTPUT
