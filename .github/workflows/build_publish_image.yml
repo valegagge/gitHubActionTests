@@ -16,8 +16,7 @@ jobs:
       with:
         ref: master
     - name: print input
-      #run: echo "My input is: ${{ inputs.release }}"
-      run: echo "🎉 here I'll print the input."
+      run: echo "My input is: ${{ inputs.release }} "
     - name: docker-build
       #run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources"       
       run: docker build -f Dockerfile.yml --no-cache  -t valegagge/superbuild:latest .
