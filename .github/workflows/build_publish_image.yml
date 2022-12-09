@@ -17,9 +17,10 @@ jobs:
         ref: master
     - name: print input
       run: echo "My input is ${{ inputs.release }}"
+    - name: docker login
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PWD }}
     - name: docker-build
       #run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources"       
-      run: docker build -f Dockerfile.yml --no-cache  -t valegagge/superbuild:latest .
-    - name: print something
-      #run: echo "My input is: ${{ inputs.release }}"
-      run: echo "🎉 print something."
+      run: docker build -f Dockerfile.yml  -t ${{ secrets.DOCKERHUB_USERNAME }}/superbuild:latest .
+    - name: docker push
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/superbuild:latest
